@@ -1,6 +1,6 @@
 # forxpy
 
-Package to access daily exchange rates and forex conversion
+Package to access daily exchange rates and forex conversion created by Group 6: Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Interested in contributing? Check out the contributing guidelines. Please note t
 
 ## License
 
-`forxpy` was created by Group 6. It is licensed under the terms of the MIT license.
+`forxpy` was created by Group 6 - Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc. It is licensed under the terms of the MIT license.
 
 ## Credits
 
