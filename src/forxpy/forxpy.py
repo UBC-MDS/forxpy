@@ -1,6 +1,9 @@
 def convert(currency1,currency2):
     """
     Convert Currency 1 to Currency 2.
+def convert(currency1,currency2):
+    """
+    Convert Currency 1 to Currency 2.
 
     The conversion rate is based on the average exchange rate 
     by the 4:00 pm ET of the closest business day
@@ -8,8 +11,10 @@ def convert(currency1,currency2):
     Parameters
     ----------
     currency1: str
+    currency1: str
         The type of currency to be converted
     
+    currency2: str
     currency2: str
         The type of currency that the currency1 will be converted to
 
@@ -76,9 +81,8 @@ def fastest_slowest_currency(df):
 
 def currency_convert(value, currency1, currency2):
     """
-    This function takes a currency value and the currency type 
-    to be converted to as input and returns the converted currency 
-    value as per the current conversion rate.
+    This function takes currency exchange rates data as input and returns a list of two strings containing the fastest and slowest growing currency exchange rate in relation to Canadian Dollar.
+    The data provided contains currency code in the format FX***CAD, the average exchange rate and the date.
     
     Parameters
     ----------
