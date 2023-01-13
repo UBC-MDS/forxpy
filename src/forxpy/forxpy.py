@@ -27,7 +27,8 @@ def convert(currency1,currency2):
 def retrieve_data(start_date, output_path):
 	    
 	"""
-	Retrieve historical daily currency exchange rate data for Canadian Dollars in CSV format from the Bank of Canada website.    
+	Retrieve historical daily currency exchange rate data for Canadian Dollars 
+    in CSV format from the Bank of Canada website.    
 	
 	Parameters
 	----------
@@ -49,8 +50,11 @@ def retrieve_data(start_date, output_path):
 def fastest_slowest_currency(df):
     
     """
-    This function takes currency exchange rates data as input and returns a list of two strings containing the fastest and slowest growing currency exchange rate in relation to Canadian Dollar.
-    The data provided contains currency code in the format FX***CAD, the average exchange rate and the date.
+    This function takes currency exchange rates data as input and returns a 
+    list of two strings containing the fastest and slowest growing currency 
+    exchange rate in relation to Canadian Dollar.
+    The data provided contains currency code in the format FX***CAD, 
+    the average exchange rate and the date.
     
     Parameters
     ----------
@@ -60,7 +64,9 @@ def fastest_slowest_currency(df):
     Returns
     -------
     list
-        list of strings containing the currency name used to convert to CAD in the format (FX***CAD) and the exchange rates for the fastest and slowest growing currencies
+        list of strings containing the currency name used to convert 
+        to CAD in the format (FX***CAD) and the exchange rates for 
+        the fastest and slowest growing currencies
     
     Examples
     >>> fastest_slowest_currency(exchange_data)
@@ -70,8 +76,9 @@ def fastest_slowest_currency(df):
 
 def currency_convert(value, currency1, currency2):
     """
-    This function takes currency exchange rates data as input and returns a list of two strings containing the fastest and slowest growing currency exchange rate in relation to Canadian Dollar.
-    The data provided contains currency code in the format FX***CAD, the average exchange rate and the date.
+    This function takes a currency value and the currency type 
+    to be converted to as input and returns the converted currency 
+    value as per the current conversion rate.
     
     Parameters
     ----------
