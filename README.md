@@ -1,6 +1,8 @@
-# forxpy
+ # forxpy
 
 Package to access daily exchange rates and forex conversion created by Group 6: Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc.
+
+// add high level description of the package here
 
 ## Installation
 
@@ -12,9 +14,21 @@ $ pip install forxpy
 
 - TODO
 
+### Functions included in the package:
+
+- **convert()**: desc of what it does
+- **retreive_data()**: desc
+- **fastest_slowest_currency()**: desc
+- **currency_convert()**: descr
+
+// Paragraph of where it fits in the ecosystem to beinput here
+
 ## Similar Packages
 
-[Add a list of similar packages]
+1. [`forex-python`](https://pypi.org/project/forex-python/): Used to retreive foregn currency exchange rates and currency conversion.
+
+2. [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/): This is a currency converter package that uses historical rates against a reference currency (Euro)
+
 
 ## Contributing
 
