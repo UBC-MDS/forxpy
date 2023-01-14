@@ -12,9 +12,19 @@ $ pip install forxpy
 
 - TODO
 
+### Functions included in the package:
+
+- **convert()**: desc of what it does
+- **retreive_data()**: desc
+- **fastest_slowest_currency()**: desc
+- **currency_convert()**: desc
+
 ## Similar Packages
 
-[Add a list of similar packages]
+1. [`forex-python`](https://pypi.org/project/forex-python/): Used to retreive foregn currency exchange rates and currency conversion.
+
+2. [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/): This is a currency converter package that uses historical rates against a reference currency (Euro)
+
 
 ## Contributing
 
