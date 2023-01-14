@@ -2,6 +2,8 @@
 
 Package to access daily exchange rates and forex conversion created by Group 6: Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc.
 
+// add high level description of the package here
+
 ## Installation
 
 ```bash
@@ -18,6 +20,8 @@ $ pip install forxpy
 - **retreive_data()**: desc
 - **fastest_slowest_currency()**: desc
 - **currency_convert()**: desc
+
+// Paragraph of where it fits in the ecosystem to beinput here
 
 ## Similar Packages
 
