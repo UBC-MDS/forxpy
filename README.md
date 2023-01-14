@@ -2,7 +2,7 @@
 
 Package to access daily exchange rates and forex conversion created by Group 6: Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc.
 
-// add high level description of the package here
+`forxpy` allows users to easily convert currency rates by utilizing data from [Bank of Canada](https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/). The package supports multiple currencies and provides historical exchange rates. It also has the ability to make currency conversions with the use of a simple function call, making it easy for developers to integrate into their projects. Additionally, it provides a way to get historical exchange rates in a chart, which makes it useful for dashboard building. Overall, **forxpy** is a powerful and flexible package for handling currency conversions in Python.
 
 ## Installation
 
@@ -16,17 +16,23 @@ $ pip install forxpy
 
 ### Functions included in the package:
 
-- **convert()**: desc of what it does
-- **retreive_data()**: desc
-- **fastest_slowest_currency()**: desc
-- **currency_convert()**: descr
+- **retrieve_data()**: Retrieve historical daily currency exchange rate data for Canadian Dollars in CSV format from the Bank of Canada website.
+- **currency_convert**: The conversion rate is based on the average exchange rate by the 4:00 pm ET of the closest business day.
+- **fastest_slowest_currency()**: This function takes currency exchange rates data as input and returns a  list of two strings containing the fastest and slowest growing currency exchange rate in relation to Canadian Dollar. The data provided contains currency code in the format FX***CAD, the average exchange rate and the date.
+- **plot_historical()**:Plots the historical rate of the entered currencies within a specific period of time.
 
-// Paragraph of where it fits in the ecosystem to beinput here
+**forxpy** can be a useful tool for many industries that require currency conversions. Here are a few examples:
+1. **Finance and Banking**: Banks and financial institutions often need to convert currencies for international transactions, and "forxpy" can provide accurate and up-to-date exchange rates for these purposes.
+2. **E-commerce**: Online retailers that sell internationally may need to display prices in multiple currencies, and "forxpy" can help them convert the prices in real-time.
+3. **Travel and Tourism**: Travel agencies and booking websites may need to convert currency for pricing and budgeting purposes, and "forxpy" can provide them with accurate exchange rates.
+4. **Data Analysis**: Companies that conduct global business can use "forxpy" to collect and analyze historical exchange rate data, which can be useful for making business decisions and forecasting.
+5. **Cryptocurrency**: As the cryptocurrency markets are decentralized and global, the package can be used to convert cryptocurrency prices to different fiat currencies, which is helpful for investors and traders.
+
+Overall, "forxpy" can be a valuable tool for any industry that needs to handle currency conversions in Python.
 
 ## Similar Packages
 
-1. [`forex-python`](https://pypi.org/project/forex-python/): Used to retreive foregn currency exchange rates and currency conversion.
-
+1. [`forex-python`](https://pypi.org/project/forex-python/): Used to retrieve foreign currency exchange rates and currency conversion.
 2. [`CurrencyConverter`](https://pypi.org/project/CurrencyConverter/): This is a currency converter package that uses historical rates against a reference currency (Euro)
 
 
