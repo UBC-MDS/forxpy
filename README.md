@@ -19,7 +19,7 @@ $ pip install forxpy
 - **convert()**: desc of what it does
 - **retreive_data()**: desc
 - **fastest_slowest_currency()**: desc
-- **currency_convert()**: desc
+- **currency_convert()**: descr
 
 // Paragraph of where it fits in the ecosystem to beinput here
 
