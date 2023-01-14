@@ -37,6 +37,7 @@ Overall, "forxpy" can be a valuable tool for any industry that needs to handle c
 
 
 ## Contributing
+**Authors**: Dhruvi Nishar, Mohammad Reza Nabizadeh, Hongjian Li, and Stepan Zaiatc.
 
 Interested in contributing? Check out the contributing guidelines. Please note that this project is released with a Code of Conduct. By contributing to this project, you agree to abide by its terms.
 
