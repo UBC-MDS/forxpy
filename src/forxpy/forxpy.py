@@ -1,24 +1,60 @@
-def retrieve_data(start_date, output_path):    
-	"""
-	Retrieve historical daily currency exchange rate data for Canadian Dollars 
-    in CSV format from the Bank of Canada website.    
-	
-	Parameters
-	----------
-	start_date : string '%YYYY-%mm-%dd'
-	    inputted starting date in the format specified '%YYYY-%mm-%dd'
-	output_path : path
-	    the path where the csv file will get written to
-		 
-	Returns
-	-------
-	file
-	    csv data file that includes historical data on currency exchange rates
-	    
-	Examples
-	>>> retrieve_data('2022-05-23', 'my_document/currency_exchange.csv')
-	"""
-	pass
+import os
+import pandas as pd
+
+def retrieve_data(url):
+    """
+    Retrieve historical daily currency exchange rates data for Canadian Dollar 
+    in CSV format from Bank of Canada website. 
+    The function pre-processes and cleans the data to transform it into a more usable format.     
+    
+    Parameters
+    ----------
+    url : string
+        url of the csv file to be retrieved from the web
+
+    Returns
+    -------
+    file :
+        cleaned and processed csv data file that includes historical data on currency exchange rates
+        
+    Examples
+    >>> retrieve_data('https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv')
+    """
+    
+    # Read CSV file and reset the index
+    data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
+    
+    # Setting the first row as column names
+    data_raw.columns = data_raw.iloc[0]
+    data = data_raw.iloc[:, 1:]
+    
+    # Drop the first row of data
+    data = data.drop(data.index[0])
+    
+    # Drop "FXMYRCAD", "FXTHBCAD", "FXVNDCAD" columns with many NA values
+    data = data.drop(labels=["FXMYRCAD", "FXTHBCAD", "FXVNDCAD"], axis=1)
+    
+    # Saving dataframe as CSV file
+    data.to_csv("data_raw.csv")
+    
+    
+    # Test whether the file has been retrieved from the link
+    assert os.path.isfile("data_raw.csv"), "csv file is not found"
+    
+    # Test whether the first row has been dropped
+    assert data.index[0] == 1, "first row is not dropped"
+    
+    # Test whether the required columns have been dropped
+    assert 'FXMYRCAD' not in data.columns, "FXMYRCAD column is not dropped"
+    assert 'FXTHBCAD' not in data.columns, "FXTHBCAD column is not dropped"
+    assert 'FXVNDCAD' not in data.columns, "FXVNDCAD column is not dropped"
+    
+    # Test whether the output is pandas DataFrame data type
+    if not isinstance(data, pd.DataFrame):
+        raise TypeError("output is not pd.DataFrame data type")
+
+        
+    return data
     
 def fastest_slowest_currency(df):
     """
