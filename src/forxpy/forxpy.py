@@ -1,7 +1,9 @@
 import os
 import pandas as pd
+import altair as alt
+from datetime import datetime
 
-def retrieve_data(url):
+def retrieve_data(export_csv = False):
     """
     Retrieve historical daily currency exchange rates data for Canadian Dollar 
     in CSV format from Bank of Canada website. 
@@ -9,19 +11,22 @@ def retrieve_data(url):
     
     Parameters
     ----------
-    url : string
-        url of the csv file to be retrieved from the web
+    export : boolean
+        If true, a csv version of the dataframe will be store on the present
+        working directory.
 
     Returns
     -------
     file :
-        cleaned and processed csv data file that includes historical data on currency exchange rates
+        cleaned and processed dataframe and csv file that includes historical 
+        data on currency exchange rates
         
     Examples
-    >>> retrieve_data('https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv')
+    >>> retrieve_data(export_csv = False)
     """
     
     # Read CSV file and reset the index
+    url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
     data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
     
     # Setting the first row as column names
@@ -34,9 +39,18 @@ def retrieve_data(url):
     # Drop "FXMYRCAD", "FXTHBCAD", "FXVNDCAD" columns with many NA values
     data = data.drop(labels=["FXMYRCAD", "FXTHBCAD", "FXVNDCAD"], axis=1)
     
+    # Data cleaning
+    data['date'] = pd.to_datetime(data['date'])
+    col_list = data.columns.tolist()
+    col_list.remove('date')
+    data[col_list] = data[col_list].apply(pd.to_numeric)
+    data.columns = data.columns.str.replace("FX", "")
+    data.columns = data.columns.str.replace("CAD", "")
+    data['CAD'] = 1.0
+
     # Saving dataframe as CSV file
-    data.to_csv("data_raw.csv")
-    
+    if export_csv == True:
+        data.to_csv("data_raw.csv")
     
     # Test whether the file has been retrieved from the link
     assert os.path.isfile("data_raw.csv"), "csv file is not found"
@@ -53,7 +67,6 @@ def retrieve_data(url):
     if not isinstance(data, pd.DataFrame):
         raise TypeError("output is not pd.DataFrame data type")
 
-        
     return data
     
 def fastest_slowest_currency(df):
@@ -109,7 +122,7 @@ def currency_convert(value, currency1, currency2):
     """
     pass
 
-def plot_historical(start_date, end_date, currency):
+def plot_historical(start_date, end_date, currency1, currency2):
     """
     Plots the historical rate of the entered currencies within a specific period
     of time.
@@ -120,8 +133,10 @@ def plot_historical(start_date, end_date, currency):
 	    inputted starting date in the format specified '%YYYY-%mm-%dd'
 	end_date : string '%YYYY-%mm-%dd'
 	    inputted ending date in the format specified '%YYYY-%mm-%dd'
-    currency : str
-        The type of currency asked for plotting
+    currency1 : str
+        The type of based currency asked for plotting
+    currency2 : str
+        The type of exchange currency asked for plotting
 
     Returns
     -------
@@ -130,6 +145,50 @@ def plot_historical(start_date, end_date, currency):
 
     Examples
     --------
-    >>> plot_historical('2022-05-23', '2022-05-30', 'USD')
+    >>> plot_historical('2020-05-23', '2022-05-30', 'USD', 'CAD')
     """
-    pass
+
+    # Data filtration
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+    ratio = currency1 + '/' + currency2
+    data = retrieve_data()
+    data[ratio] = data[currency1]/data[currency2]
+    data_plt = data[(data['date'] >= start) &
+                    (data['date'] <= end)][['date', ratio]]
+    
+    # Building the base chart
+    base_chart = alt.Chart(data_plt).mark_line().encode(
+        alt.X('date', title='Date'),
+        alt.Y(ratio, scale=alt.Scale(zero=False)),
+        tooltip=['date', ratio]).properties(width=900, height=200)
+    dot_line_chart = base_chart + base_chart.mark_point(size=2)
+
+    # Building interactivity
+    brush = alt.selection_interval(encodings=['x'])
+    lower_chart = base_chart.properties(height=60).add_selection(brush)
+    upper_chart = dot_line_chart.encode(alt.X('date:T', 
+                                            scale=alt.Scale(domain=brush)))
+
+    plt_title = 'How many ' + currency2 + ' does 1 ' + currency1 + ' worth?'
+    sbs_plot = (upper_chart & lower_chart).properties(
+        title=plt_title
+                                        ).configure_title(
+        fontSize=18, font='Cambria', anchor='start').configure_axis(
+            labelFontSize=10, titleFontSize=10, 
+            labelFont='Cambria', titleFont='Cambria'
+            )
+    
+    # Unit tests to test the function input
+    assert end >= data['date'].min(), 'The end date is out of the range'
+    assert start <= data['date'].max(), 'The start date is out of the range'
+    assert currency1 in data.columns.to_list(), 'Currency 1 is not supported'
+    assert currency2 in data.columns.to_list(), 'Currency 1 is not supported'
+
+    # Unit tests to test the plot object
+    assert base_chart.to_dict()['mark'] == 'line', 'Chart type is not line'
+    assert base_chart.to_dict()['encoding']['x']['type'] == 'temporal', 'Datetype is not temporal'
+    assert base_chart.to_dict()['encoding']['y']['type'] == 'quantitative', 'Rates are not numeric'
+    assert sbs_plot.title == plt_title, 'The final plot has not formed correctly'
+
+    return sbs_plot
