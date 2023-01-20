@@ -47,16 +47,6 @@ def retrieve_data(export_csv = False):
     
     # Remove the date column from the list
     col_list.remove('date')
-
-    # Data cleaning
-    data[col_list] = data[col_list].apply(pd.to_numeric)
-    data.columns = data.columns.str.replace("FX", "")
-    data.columns = data.columns.str.replace("CAD", "")
-    data['CAD'] = 1.0
-
-    # Saving dataframe as CSV file
-    if export_csv == True:
-        data.to_csv("data_raw.csv")
     
     # Convert all columns in the list to numeric data type
     data[col_list] = data[col_list].apply(pd.to_numeric)
@@ -68,14 +58,16 @@ def retrieve_data(export_csv = False):
     # Add "CAD" column and assign a value of 1.0 to eahc row
     data['CAD'] = 1.0
     
-    if output:
+
+    if export_csv == True:
         # Saving dataframe as CSV file if output=True
         data.to_csv("data_raw.csv")
     else:
         # Only display dataframe if output=False
         return data
-
+    
     return data
+
 
 def fastest_slowest_currency(df):
     """
