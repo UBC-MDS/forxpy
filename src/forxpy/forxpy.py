@@ -4,6 +4,7 @@ import altair as alt
 from datetime import datetime
 
 def retrieve_data(export_csv = False):
+
     """
     Retrieve historical daily currency exchange rates data for Canadian Dollar 
     in CSV format from Bank of Canada website. 
@@ -11,9 +12,8 @@ def retrieve_data(export_csv = False):
     
     Parameters
     ----------
-    export : boolean
-        If true, a csv version of the dataframe will be store on the present
-        working directory.
+    export_csv : bool
+        If the value is False then only display the data frame, If the value is True then write the file to the current working directory. 
 
     Returns
     -------
@@ -21,10 +21,10 @@ def retrieve_data(export_csv = False):
         cleaned and processed dataframe and csv file that includes historical 
         data on currency exchange rates
         
-    Examples
     >>> retrieve_data(export_csv = False)
+
     """
-    
+    url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
     # Read CSV file and reset the index
     url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
     data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
@@ -39,10 +39,17 @@ def retrieve_data(export_csv = False):
     # Drop "FXMYRCAD", "FXTHBCAD", "FXVNDCAD" columns with many NA values
     data = data.drop(labels=["FXMYRCAD", "FXTHBCAD", "FXVNDCAD"], axis=1)
     
-    # Data cleaning
+    
+    # Convert date column to datetime format
     data['date'] = pd.to_datetime(data['date'])
+    
+    # Creating list of column names
     col_list = data.columns.tolist()
+    
+    # Remove the date column from the list
     col_list.remove('date')
+
+    # Data cleaning
     data[col_list] = data[col_list].apply(pd.to_numeric)
     data.columns = data.columns.str.replace("FX", "")
     data.columns = data.columns.str.replace("CAD", "")
@@ -52,23 +59,25 @@ def retrieve_data(export_csv = False):
     if export_csv == True:
         data.to_csv("data_raw.csv")
     
-    # Test whether the file has been retrieved from the link
-    assert os.path.isfile("data_raw.csv"), "csv file is not found"
+    # Convert all columns in the list to numeric data type
+    data[col_list] = data[col_list].apply(pd.to_numeric)
     
-    # Test whether the first row has been dropped
-    assert data.index[0] == 1, "first row is not dropped"
+    # Wrangling column labels
+    data.columns = data.columns.str.replace("FX", "")
+    data.columns = data.columns.str.replace("CAD", "")
     
-    # Test whether the required columns have been dropped
-    assert 'FXMYRCAD' not in data.columns, "FXMYRCAD column is not dropped"
-    assert 'FXTHBCAD' not in data.columns, "FXTHBCAD column is not dropped"
-    assert 'FXVNDCAD' not in data.columns, "FXVNDCAD column is not dropped"
+    # Add "CAD" column and assign a value of 1.0 to eahc row
+    data['CAD'] = 1.0
     
-    # Test whether the output is pandas DataFrame data type
-    if not isinstance(data, pd.DataFrame):
-        raise TypeError("output is not pd.DataFrame data type")
+    if output:
+        # Saving dataframe as CSV file if output=True
+        data.to_csv("data_raw.csv")
+    else:
+        # Only display dataframe if output=False
+        return data
 
     return data
-    
+
 def fastest_slowest_currency(df):
     """
     This function takes currency exchange rates data as input and returns a 
