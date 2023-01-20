@@ -24,7 +24,6 @@ def retrieve_data(export_csv = False):
     >>> retrieve_data(export_csv = False)
 
     """
-    url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
     # Read CSV file and reset the index
     url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
     data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
