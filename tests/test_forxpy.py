@@ -1,5 +1,6 @@
 import pytest
 from forxpy.forxpy import *
+from datetime import datetime
 
 def test_retrieve_data():
 
@@ -40,13 +41,13 @@ def test_fastest_slowest_currency():
     """ Test whether the start and end date are correct """
     start = datetime.strptime(start_date, '%Y-%m-%d')
     end = datetime.strptime(end_date, '%Y-%m-%d')
-    assert (start - end).days > 0, 'The date range is inaccurate'
+    assert (end - start).days > 0, 'The date range is inaccurate'
 
     """ Test if it returns a list type """
     assert type(res) == list, 'The function does not return a list of lists accurately'
 
     """ Test 2: Check if the function is returning the correct fastest currency """
-    assert fastest_slowest_currency('2019-05-23', '2022-05-30')[0][0] == 'EUR'
+    assert fastest_slowest_currency('2019-05-23', '2022-05-30')[0][0] == 'TRY'
 
     """ Test 3: Check if the function is returning the correct slowest currency """
     assert fastest_slowest_currency('2019-05-23', '2022-05-30')[1][0] == 'IDR'

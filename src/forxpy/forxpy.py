@@ -96,7 +96,8 @@ def fastest_slowest_currency(start_date, end_date):
     >>> fastest_slowest_currency('2019-05-23', '2022-05-30')
     [['EUR', 1.4545], ['IDR', 8.9e-05]]
     """ 
-    # Added initial unit tests
+    import warnings
+    warnings.simplefilter(action='ignore', category=FutureWarning)
 
     # Check for invalid date format
     if not re.match(r"^\d{4}-\d{2}-\d{2}$", start_date) or not re.match(r"^\d{4}-\d{2}-\d{2}$", end_date):
