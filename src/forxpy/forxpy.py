@@ -95,7 +95,17 @@ def fastest_slowest_currency():
     >>> fastest_slowest_currency('2019-05-23', '2022-05-30')
     [['EUR', 1.4545], ['IDR', 8.9e-05]]
     """ 
-    pass
+
+    # Extracting the data split to calculate the fastest and slowest currency for the given range
+    data = retrieve_data()
+    data.head()
+    start_date = '2020-05-23'
+    end_date = '2022-05-30'
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+    df = data[(data['date'] >= start) & (data['date'] <= end)]
+
+    
 
 def currency_convert(value, currency1, currency2):
     """
