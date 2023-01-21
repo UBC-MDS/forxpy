@@ -69,7 +69,7 @@ def retrieve_data(export_csv = False):
     return data
 
 
-def fastest_slowest_currency():
+def fastest_slowest_currency(start_date, end_date):
     """
     This function takes currency exchange rates data as input and returns a 
     list of two strings containing the fastest and slowest growing currency 
@@ -98,9 +98,6 @@ def fastest_slowest_currency():
 
     # Extracting the data split to calculate the fastest and slowest currency for the given range
     data = retrieve_data()
-    data.head()
-    start_date = '2020-05-23'
-    end_date = '2022-05-30'
     start = datetime.strptime(start_date, '%Y-%m-%d')
     end = datetime.strptime(end_date, '%Y-%m-%d')
     df = data[(data['date'] >= start) & (data['date'] <= end)]
@@ -114,7 +111,7 @@ def fastest_slowest_currency():
     nums = pd.to_numeric(diff.drop(columns=['date', 'CAD']).loc[1])
     fastestcurr = nums.idxmax()
     slowestcurr = nums.idxmin()
-    
+
     # calculates and stores the increase and decrease overall
     fastdiff = nums.max()
     slowdiff = nums.min()
