@@ -163,7 +163,43 @@ def currency_convert(value, currency1, currency2):
     Examples
     >>> currency_convert(23, 'USD', 'CAD')
     """
-    pass
+    df_conv_rates = retrieve_data('https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv')
+    
+    names = {'AUD':1,'BRL':2,'CNY':3, 'EUR':4, 'HKD':5, 'INR':6, 'IDR':7, 'JPY':8, 'MXN':9, 'NZD':10, 'NOK':11, 'PEN':12, 
+         'RUB':13, 'SAR':14, 'SGD':15, 'ZAR':16, 'KRW':17, 'SEK':18, 'CHF':19, 'TWD':20, 'TRY':21, 'GBP':22, 'USD':23} # helps to locate the data in the df
+    
+    if currency1 not in names: # check whether the currency to be converted is in our data
+        if currency1 != 'CAD':
+            raise ValueError("The currency to be converted is invalid!")
+        
+    if currency2 not in names: # check whether the currency to be converted to is in our data
+        if currency2 != 'CAD':
+            raise ValueError("The currency to be converted to is invalid!")
+    if value <= 0:
+        raise ValueError("Please enter an positive amount!")
+    
+    if currency2 == 'CAD' : # situation of convert a specific currency to CAD
+        if currency1 == 'CAD':
+            return(round(value,3)) 
+        
+        else:
+            amount = round(value*float(df_conv_rates.iloc[-1][names[currency1]]),3)
+            return amount 
+    
+    elif currency1 == 'CAD': # situation of convert CAD to a specific currency
+        if currency2 == 'CAD':
+            return(round(value,3))
+        
+        else: 
+            amount = round(value/(float(df_conv_rates.iloc[-1][names[currency2]])),3)
+            return amount
+    
+    else: 
+            amount = round(value*(float(df_conv_rates.iloc[-1][names[currency1]])) # situation of convert a specific currency to another currency 
+                 /(float(df_conv_rates.iloc[-1][names[currency2]])),3)              # which are neither CAD 
+            
+            return amount
+    
 
 def plot_historical(start_date, end_date, currency1, currency2):
     """
