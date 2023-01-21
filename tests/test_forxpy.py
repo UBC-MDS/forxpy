@@ -30,3 +30,14 @@ def test_plot_historical():
     assert plt_objs['vconcat'][0]['layer'][0]['mark'] == 'line', 'Chart type is not line'
     assert plt_objs['vconcat'][0]['layer'][0]['encoding']['x']['field'] == 'date', 'The X axis is not date'
     assert plt_objs['vconcat'][0]['layer'][0]['encoding']['y']['field'] == 'USD/CAD', 'Rates are not numeric'
+
+def test_fastest_slowest_currency():
+    start_date = '2019-05-23'
+    end_date = '2022-05-30'
+
+    res = fastest_slowest_currency(start_date, end_date)
+
+    """ Test whether the start and end date are correct """
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+    assert (start - end).days > 0, 'The date range is inaccurate'
