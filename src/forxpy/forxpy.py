@@ -105,7 +105,24 @@ def fastest_slowest_currency():
     end = datetime.strptime(end_date, '%Y-%m-%d')
     df = data[(data['date'] >= start) & (data['date'] <= end)]
 
+    # Computing the fastest growing currency and the slowest growing currency for the given range
+    tepm = df[:1] 
+    tepm = tepm.append(df[-1:], ignore_index=True)
+    diff = tepm.diff()[-1:]
+    diff = diff.abs()
     
+    nums = pd.to_numeric(diff.drop(columns=['date', 'CAD']).loc[1])
+    fastestcurr = nums.idxmax()
+    slowestcurr = nums.idxmin()
+    fastdiff = nums.max()
+    slowdiff = nums.min()
+
+    # Extracting the current rate of the slowest and the fastest currencies
+    slow_current_rate = data.loc[data.shape[0]][slowestcurr]
+    fast_current_rate = data.loc[data.shape[0]][fastestcurr]
+
+    # returning the computed values
+    return [[fastestcurr, fast_current_rate], [slowestcurr, slow_current_rate]]
 
 def currency_convert(value, currency1, currency2):
     """
