@@ -69,7 +69,7 @@ def retrieve_data(export_csv = False):
     return data
 
 
-def fastest_slowest_currency(df):
+def fastest_slowest_currency():
     """
     This function takes currency exchange rates data as input and returns a 
     list of two strings containing the fastest and slowest growing currency 
@@ -79,19 +79,21 @@ def fastest_slowest_currency(df):
     
     Parameters
     ----------
-    df : Pandas DataFrame
-        data frame containing currency exchange rates to Canadian Dollars by date
-    
+    start_date : string '%YYYY-%mm-%dd'
+	    inputted starting date in the format specified '%YYYY-%mm-%dd'
+	end_date : string '%YYYY-%mm-%dd'
+	    inputted ending date in the format specified '%YYYY-%mm-%dd'
+
     Returns
     -------
     list
-        list of strings containing the currency name used to convert 
-        to CAD in the format (FX***CAD) and the exchange rates for 
-        the fastest and slowest growing currencies
+        list of lists containing the fastest currency name and its current 
+        exchange rate with CAD and the slowest currency with its current exchange 
+        rate with CAD for the specified date range.
     
     Examples
-    >>> fastest_slowest_currency(exchange_data)
-    ['FXUSDCAD: 0.857', 'FXTHBCAD: 0.263']
+    >>> fastest_slowest_currency('2019-05-23', '2022-05-30')
+    [['EUR', 1.4545], ['IDR', 8.9e-05]]
     """ 
     pass
 
