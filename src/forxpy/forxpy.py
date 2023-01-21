@@ -26,7 +26,7 @@ def retrieve_data(export_csv = False):
     """
     # Read CSV file and reset the index
     url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
-    data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
+    data_raw = (pd.read_csv(url, delimiter=",")[38:]).reset_index()
     
     # Setting the first row as column names
     data_raw.columns = data_raw.iloc[0]
