@@ -147,6 +147,8 @@ def plot_historical(start_date, end_date, currency1, currency2):
     --------
     >>> plot_historical('2020-05-23', '2022-05-30', 'USD', 'CAD')
     """
+    import warnings
+    warnings.simplefilter(action='ignore', category=FutureWarning)
 
     # Data filtration
     start = datetime.strptime(start_date, '%Y-%m-%d')
