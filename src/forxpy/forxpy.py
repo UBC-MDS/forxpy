@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import altair as alt
 from datetime import datetime
+import re
 
 def retrieve_data(export_csv = False):
 
@@ -95,6 +96,19 @@ def fastest_slowest_currency(start_date, end_date):
     >>> fastest_slowest_currency('2019-05-23', '2022-05-30')
     [['EUR', 1.4545], ['IDR', 8.9e-05]]
     """ 
+
+    # Adding inital tests
+    # Checks if the data is not empty
+    if data.empty:
+        return "No data available for the specified date range."
+
+    # Checks for correct range of dates
+    if start > end:
+        return "Invalid date range. Please ensure that the start date is before the end date."
+
+    # Checks for correct date format input
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", start_date) or not re.match(r"^\d{4}-\d{2}-\d{2}$", end_date):
+        return "Invalid date format. Please enter dates in the format '%YYYY-%mm-%dd'."
 
     # Extracting the data split to calculate the fastest and slowest currency for the given range
     data = retrieve_data()
