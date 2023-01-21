@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import altair as alt
 from datetime import datetime
+import re
 
 def retrieve_data(export_csv = False):
 
@@ -69,7 +70,7 @@ def retrieve_data(export_csv = False):
     return data
 
 
-def fastest_slowest_currency(df):
+def fastest_slowest_currency(start_date, end_date):
     """
     This function takes currency exchange rates data as input and returns a 
     list of two strings containing the fastest and slowest growing currency 
@@ -79,21 +80,62 @@ def fastest_slowest_currency(df):
     
     Parameters
     ----------
-    df : Pandas DataFrame
-        data frame containing currency exchange rates to Canadian Dollars by date
-    
+    start_date : string '%YYYY-%mm-%dd'
+	    inputted starting date in the format specified '%YYYY-%mm-%dd'
+	end_date : string '%YYYY-%mm-%dd'
+	    inputted ending date in the format specified '%YYYY-%mm-%dd'
+
     Returns
     -------
     list
-        list of strings containing the currency name used to convert 
-        to CAD in the format (FX***CAD) and the exchange rates for 
-        the fastest and slowest growing currencies
+        list of lists containing the fastest currency name and its current 
+        exchange rate with CAD and the slowest currency with its current exchange 
+        rate with CAD for the specified date range.
     
     Examples
-    >>> fastest_slowest_currency(exchange_data)
-    ['FXUSDCAD: 0.857', 'FXTHBCAD: 0.263']
+    >>> fastest_slowest_currency('2019-05-23', '2022-05-30')
+    [['EUR', 1.4545], ['IDR', 8.9e-05]]
     """ 
-    pass
+    # Added initial unit tests
+
+    # Check for invalid date format
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", start_date) or not re.match(r"^\d{4}-\d{2}-\d{2}$", end_date):
+        raise ValueError("Invalid date format. Please enter dates in the format '%YYYY-%mm-%dd'.")
+    
+    # Check for invalid date range
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+    if start > end:
+        raise ValueError("Invalid date range. Please ensure that the start date is before the end date.")
+
+    # Extracting the data split to calculate the fastest and slowest currency for the given range
+    data = retrieve_data()
+    df = data[(data['date'] >= start) & (data['date'] <= end)]
+
+    # Check for empty data
+    if data.empty:
+        raise ValueError("No data available for the specified date range.")
+
+    # Computing the fastest growing currency and the slowest growing currency for the given range
+    tepm = df[:1] 
+    tepm = tepm.append(df[-1:], ignore_index=True)
+    diff = tepm.diff()[-1:]
+    diff = diff.abs()
+    
+    nums = pd.to_numeric(diff.drop(columns=['date', 'CAD']).loc[1])
+    fastestcurr = nums.idxmax()
+    slowestcurr = nums.idxmin()
+
+    # calculates and stores the increase and decrease overall
+    fastdiff = nums.max()
+    slowdiff = nums.min()
+
+    # Extracting the current rate of the slowest and the fastest currencies
+    slow_current_rate = data.loc[data.shape[0]][slowestcurr]
+    fast_current_rate = data.loc[data.shape[0]][fastestcurr]
+
+    # returning the computed values
+    return [[fastestcurr, fast_current_rate], [slowestcurr, slow_current_rate]]
 
 def currency_convert(value, currency1, currency2):
     """
