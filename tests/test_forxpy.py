@@ -51,3 +51,24 @@ def test_fastest_slowest_currency():
 
     """ Test 3: Check if the function is returning the correct slowest currency """
     assert fastest_slowest_currency('2019-05-23', '2022-05-30')[1][0] == 'IDR'
+
+def test_currency_convert():
+    df_conv_rates = retrieve_data('https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv')
+    names = {'AUD':1,'BRL':2,'CNY':3, 'EUR':4, 'HKD':5, 'INR':6, 'IDR':7, 'JPY':8, 'MXN':9, 'NZD':10, 'NOK':11, 'PEN':12, 
+         'RUB':13, 'SAR':14, 'SGD':15, 'ZAR':16, 'KRW':17, 'SEK':18, 'CHF':19, 'TWD':20, 'TRY':21, 'GBP':22, 'USD':23} #initializations
+    
+    with pytest.raises(ValueError, match=r"The currency to be converted is invalid!"): # Test for invalid input of currency1
+                       currency_convert(2, 'AAA', 'CNY')
+    with pytest.raises(ValueError, match=r"The currency to be converted to is invalid!"): # Test for invalid input of currency2
+                       currency_convert(2, 'CNY', 'AAA')
+    with pytest.raises(ValueError, match=r"Please enter an positive amount!"): # Test for input a negative amount 
+                       currency_convert(-2, 'CNY', 'USD')
+    assert type(currency_convert(2, 'CAD', 'USD')) is float or type(currency_convert(1, 'CAD', 'CAD')) is int , " The output data type is wrong!" # Test for the output data type
+    
+    assert currency_convert(2, 'CAD','CAD') == 2,"Wrong output value" #Test for exchanging the same currency
+    
+    assert currency_convert(2, 'CNY','CAD') == round(2*float(df_conv_rates.iloc[-1][names['CNY']]),3),"Wrong output value!" #Test for converting another currency to CAD
+    
+    assert currency_convert(2, 'CAD', 'CNY') == round(2/(float(df_conv_rates.iloc[-1][names['CNY']])),3), "Wrong output value!" #Test for converting CAD to another currency
+                                                      /(float(df_conv_rates.iloc[-1][names['CNY']])),3), "Wrong output value!" # Test the conversion of two currencies which both not CAD
+    
