@@ -26,7 +26,7 @@ def retrieve_data(export_csv = False):
     """
     # Read CSV file and reset the index
     url = 'https://raw.githubusercontent.com/mrnabiz/forx_source/main/data/raw/raw_data_cad.csv'
-    data_raw = (pd.read_csv(url, delimiter="\t")[38:]).reset_index()
+    data_raw = (pd.read_csv(url, delimiter=",")[38:]).reset_index()
     
     # Setting the first row as column names
     data_raw.columns = data_raw.iloc[0]
@@ -147,6 +147,8 @@ def plot_historical(start_date, end_date, currency1, currency2):
     --------
     >>> plot_historical('2020-05-23', '2022-05-30', 'USD', 'CAD')
     """
+    import warnings
+    warnings.simplefilter(action='ignore', category=FutureWarning)
 
     # Data filtration
     start = datetime.strptime(start_date, '%Y-%m-%d')
