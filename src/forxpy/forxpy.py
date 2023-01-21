@@ -114,6 +114,8 @@ def fastest_slowest_currency():
     nums = pd.to_numeric(diff.drop(columns=['date', 'CAD']).loc[1])
     fastestcurr = nums.idxmax()
     slowestcurr = nums.idxmin()
+    
+    # calculates and stores the increase and decrease overall
     fastdiff = nums.max()
     slowdiff = nums.min()
 
