@@ -12,7 +12,16 @@ $ pip install forxpy
 
 ## Usage
 
-- TODO
+`forxpy` can be used to get the daily exchange rate data, currency conversion, and plotting  as below:
+
+```python
+from forxpy.forxpy import *
+
+data = retrieve_data(export_csv = False)
+fastest_slowest_currency('2019-05-23', '2022-05-30')
+currency_convert(23, 'USD', 'CAD')
+sbs_plot = plot_historical('2020-05-23', '2022-05-30', 'USD', 'CAD')
+```
 
 ### Functions included in the package:
 
