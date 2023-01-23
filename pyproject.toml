@@ -13,6 +13,7 @@ altair = "^4.2.0"
 datetime = "^5.0"
 jsonschema = "4.16.0"
 myst-parser = "^0.18.1"
+python-semantic-release = "^7.33.0"
 
 [tool.poetry.dev-dependencies]
 
