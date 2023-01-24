@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forxpy"
-version = "0.0.3"
+version = "0.0.1"
 description = "Package to access daily exchange rates and forex conversion"
 authors = ["Group 6"]
 license = "MIT"
