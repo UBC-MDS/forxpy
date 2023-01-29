@@ -5,7 +5,7 @@ Package to access daily exchange rates and forex conversion created by Group 6: 
 `forxpy` allows users to easily convert currency rates by utilizing data from [Bank of Canada](https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/). The package supports multiple currencies and provides historical exchange rates. It also has the ability to make currency conversions with the use of a simple function call, making it easy for developers to integrate into their projects. Additionally, it provides a way to get historical exchange rates in a chart, which makes it useful for dashboard building. Overall, **forxpy** is a powerful and flexible package for handling currency conversions in Python.
 
 ## Installation
-
+https://pypi.org/project/forxpy/
 ```bash
 $ pip install forxpy
 ```
